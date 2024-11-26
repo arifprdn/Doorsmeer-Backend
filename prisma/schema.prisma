@@ -1,0 +1,57 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Status {
+  MENGANTRI
+  PROSES_CUCI
+  SELESAI
+}
+
+model DoorsmeerStatus {
+  id        Int      @id @default(autoincrement())
+  isOpen    Boolean  @default(false)
+  updatedAt DateTime @updatedAt
+}
+
+model Admin {
+  user_id  Int    @id @default(autoincrement())
+  username String
+  password String
+}
+
+model Antrian {
+  id            Int       @id @default(autoincrement())
+  namaKendaraan String
+  nomorPolisi   String
+  status        Status    @default(MENGANTRI)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  EditedBy      String    @default("User")
+  transaksi     Transaksi @relation(fields: [transaksiId], references: [payment_id])
+  transaksiId   Int       @unique
+}
+
+model Transaksi {
+  payment_id   Int      @id @default(autoincrement())
+  payment_type String   @default("Tunai")
+  payment_date DateTime @default(now())
+  total_price  Float
+  jasa         Jasa?    @relation(fields: [jasaId], references: [id])
+  jasaId       Int?
+  antrian      Antrian? @relation
+}
+
+model Jasa {
+  id        Int         @id @default(autoincrement())
+  namaJasa  String
+  harga     Float
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  transaksi Transaksi[] // Satu jasa bisa dipakai di banyak transaksi
+}

@@ -1,0 +1,123 @@
+### Login Admin
+POST http://localhost:3000/v1/login
+Content-Type: application/json
+
+{
+    "username":"admin1",
+    "password":"admin123"
+}
+
+### Tambah Antrian Admin
+POST http://localhost:3000/v1/admin/addantrian
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU3MzM4NywiZXhwIjoxNzM1MTY1Mzg3fQ.rO1Bk6LysMnZrfinM8hKUMHydw5wF9twyqFh_pZCgZU
+
+{
+  "namaKendaraan": "Toyota",
+  "nomorPolisi": "B 1234 XYZ",
+  "jasaId": 2
+}
+
+### Menampilkan Semua Antrian
+POST http://localhost:3000/v1/getantrian
+
+
+### Edit Status Antrian STATUS MENGANTRI PROSES_CUCI SELESAI
+POST http://localhost:3000/v1/admin/editantrian/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU3MzM4NywiZXhwIjoxNzM1MTY1Mzg3fQ.rO1Bk6LysMnZrfinM8hKUMHydw5wF9twyqFh_pZCgZU
+
+{
+  "status": "PROSES_CUCI"
+}
+
+### DEBUG ONLY ADD ADMIN
+POST http://localhost:3000/v1/users
+Content-Type: application/json
+
+{
+    "username": "admin1",
+    "password": "admin123"
+}
+
+### Tampilkan Antrian Hari ini
+POST http://localhost:3000/v1/getantrian/today
+
+### Atur Doorsmeer Buka / Tutup dengan Boolean
+POST http://localhost:3000/v1/admin/status
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU2MDU1NCwiZXhwIjoxNzM1MTUyNTU0fQ.cBcmS4Rn2kjhFIZjEmV-Jl2vK44akH2s4pJ9Rpp9Q50
+
+{
+  "isOpen": true
+}
+
+### Cek status Doorsmeer Buka / tutup
+POST http://localhost:3000/v1/status
+
+### Tambah Jasa Admin Only
+POST http://localhost:3000/v1/admin/addjasa
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU2NzIwMywiZXhwIjoxNzM1MTU5MjAzfQ.-YfGiOHXeyXRz0Gkjg9gNvvldFofmVzZRObpUEwoHsw
+
+{
+  "namaJasa": "Cuci Mobil",
+  "harga": 50000
+}
+
+### Get Jasa
+POST http://localhost:3000/v1/getjasa
+
+
+### Edit Jasa Admin Only
+POST http://localhost:3000/v1/admin/editjasa/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU2NzIwMywiZXhwIjoxNzM1MTU5MjAzfQ.-YfGiOHXeyXRz0Gkjg9gNvvldFofmVzZRObpUEwoHsw
+
+{
+  "namaJasa": "Cuci Mobil Full",
+  "harga": 50000
+}
+
+### Delete Jasa Admin Only
+POST http://localhost:3000/v1/admin/deletejasa/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluMSIsImlhdCI6MTczMjU2NzIwMywiZXhwIjoxNzM1MTU5MjAzfQ.-YfGiOHXeyXRz0Gkjg9gNvvldFofmVzZRObpUEwoHsw
+
+
+### Buat Transaksi Midtrans
+POST http://localhost:3000/v1/create-payment
+Content-Type: application/json
+
+{
+  "jasaId": 2,
+  "customerName": "John Doe",
+  "customerEmail": "john.doe@example.com",
+  "customerPhone": "081234567890"
+}
+
+### TEST WEBHOOK DEBUGING
+POST http://localhost:3000/v1/webhook
+Content-Type: application/json
+
+{
+  "transaction_time": "2020-01-09 18:27:19",
+  "transaction_status": "capture",
+  "transaction_id": "57d5293c-e65f-4a29-95e4-5959c3fa335b",
+  "status_message": "midtrans payment notification",
+  "status_code": "200",
+  "signature_key": "16c8aef8ad192c19ad6724df1d80e1a680b97f4c84f5054774ffeac1c5595934e5cd087d2394524e8c54b11c31932fdbc21fe4c995344fa3ee69c7ca72abb171",
+  "payment_type": "credit_card",
+  "order_id": "AVANZA-BK2040FF-2-1691349830000",
+  "merchant_id": "G141532850",
+  "masked_card": "48111111-1114",
+  "gross_amount": "10000.00",
+  "fraud_status": "accept",
+  "eci": "05",
+  "currency": "IDR",
+  "channel_response_message": "Approved",
+  "channel_response_code": "00",
+  "card_type": "credit",
+  "bank": "bni",
+  "approval_code": "1578569243927"
+}
